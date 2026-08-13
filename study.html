@@ -402,25 +402,31 @@
 
   function saveState(){
     var checked = [];
+
     listEl.querySelectorAll('input[type=checkbox]').forEach(function(cb, idx){
       if (cb.checked) checked.push(tasks[idx].id);
     });
-    try {
-      window.storage.set(storageKey, JSON.stringify(checked), false).catch(function(){});
-    } catch(e) {}
+
+    localStorage.setItem(storageKey, JSON.stringify(checked));
   }
 
-  (async function loadState(){
+  function loadState(){
     var checkedIds = [];
+
     try {
-      var res = await window.storage.get(storageKey, false);
-      if (res && res.value) checkedIds = JSON.parse(res.value);
-    } catch(e) { checkedIds = []; }
+      var value = localStorage.getItem(storageKey);
+      if (value) checkedIds = JSON.parse(value);
+    } catch(e) {
+      console.error('Could not load checklist:', e);
+    }
+
     buildList(checkedIds);
-  })();
+  }
+
+  loadState();
 
   document.getElementById('reset-today').addEventListener('click', function(){
-    try { window.storage.delete(storageKey, false).catch(function(){}); } catch(e) {}
+    localStorage.removeItem(storageKey);
     buildList([]);
   });
 
