@@ -2,8 +2,12 @@
   import { onMount } from 'svelte';
   import Home from './Home.svelte';
   import Study from './Study.svelte';
+  import homeStylesheet from './styles/home.css?url';
+  import studyStylesheet from './styles/study.css?url';
 
   let path = window.location.pathname;
+  $: isStudyPath = path === '/study' || path === '/study/';
+  $: stylesheet = isStudyPath ? studyStylesheet : homeStylesheet;
 
   onMount(() => {
     const updatePath = () => {
@@ -22,23 +26,12 @@
 </script>
 
 <svelte:head>
-  <title>{path === '/study' || path === '/study/' ? 'Study | Zikora' : 'Zikora'}</title>
+  <title>{isStudyPath ? 'Study | Zikora' : 'Zikora'}</title>
+  <link rel="stylesheet" href={stylesheet} />
 </svelte:head>
 
-<header class="site-header">
-  <a class="brand" href="/" on:click={(event) => navigate(event, '/')}>zikora<span>.</span></a>
-  <nav aria-label="Main navigation">
-    <a class:active={path === '/study' || path === '/study/'} href="/study" on:click={(event) => navigate(event, '/study')}>Study</a>
-  </nav>
-</header>
-
-{#if path === '/study' || path === '/study/'}
+{#if isStudyPath}
   <Study />
 {:else}
   <Home {navigate} />
 {/if}
-
-<footer>
-  <span>© {new Date().getFullYear()} Zikora</span>
-  <span>Built with care</span>
-</footer>
