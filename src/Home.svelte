@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import initDrawer from './home.js';
-    export let navigate;
     import githubIcon from './icons/github.svg';
     import instagramIcon from './icons/instagram.svg';
     import twitterIcon from './icons/twitter.svg';
@@ -50,10 +49,9 @@
                     <div class="signature">{@html signatureGraphic}</div>
                 </div>
                 <nav class="site-nav">
-                    <a href="#" class="nav-item active">Bio</a>
-                    <a href="#" class="nav-item">Resume</a>
-                    <a href="#" class="nav-item">Projects</a>
-                    <!-- <a href="/study" on:click={(event) => navigate(event, '/study')} class="nav-item">Studies</a> -->
+                    <a href="/" class="nav-item active">Bio</a>
+                    <a href="/" class="nav-item">Resume</a>
+                    <a href="/" class="nav-item">Projects</a>
                 </nav>
             </div>
         </section>

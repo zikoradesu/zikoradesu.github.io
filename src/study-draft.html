@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JLPT Study Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1EEE6;
+    --card:#FBFAF6;
+    --ink:#1C2431;
+    --ink-soft:#5B6472;
+    --indigo:#2A3B63;
+    --seal:#B23A2E;
+    --moss-bg:#E7EEE1;
+    --line:#DDD8C9;
+    --font-display:'Shippori Mincho', 'Iowan Old Style', serif;
+    --font-body:'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono:'IBM Plex Mono', 'SF Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#1A1D24; --card:#22262F; --ink:#EDEBE3; --ink-soft:#9AA0AC;
+      --indigo:#8FA3D6; --seal:#E08A7C; --moss-bg:#2A3226; --line:#333A46;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); -webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:760px;margin:0 auto;padding:36px 20px 60px;}
+  section{margin-bottom:40px;}
+  h2{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--ink);margin:0 0 16px;}
+
+  /* Hero */
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);margin-bottom:10px;}
+  h1{font-family:var(--font-display);font-size:38px;font-weight:600;color:var(--ink);margin:0 0 6px;line-height:1.15;}
+  .sub{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);margin:0 0 26px;}
+  .countdown-row{display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+  .countdown-stat span{font-family:var(--font-display);font-size:36px;color:var(--indigo);line-height:1;display:block;}
+  .countdown-stat label{font-size:12px;color:var(--ink-soft);margin-top:4px;display:block;}
+  .exam-badge{margin-left:auto;display:flex;align-items:center;gap:12px;}
+  .stamp{width:54px;height:54px;border-radius:8px;background:var(--seal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:19px;font-weight:600;transform:rotate(-6deg);flex-shrink:0;}
+  .exam-badge .exam-text{font-size:13px;color:var(--ink-soft);line-height:1.4;}
+  .exam-badge strong{color:var(--ink);font-weight:600;}
+
+  /* Phase track */
+  .phase-track{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .phase-box{background:var(--card);border:0.5px solid var(--line);border-radius:10px;padding:14px;position:relative;}
+  .phase-box.active{box-shadow:inset 0 0 0 1.5px var(--indigo);}
+  .phase-box .pname{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:2px;}
+  .phase-box .pdate{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-soft);margin-bottom:8px;}
+  .phase-box .pfocus{font-size:12px;color:var(--ink-soft);line-height:1.4;}
+  .now-tag{display:none;position:absolute;top:-9px;right:10px;background:var(--seal);color:#fff;font-size:10px;padding:2px 8px;border-radius:20px;font-family:var(--font-mono);letter-spacing:.03em;}
+
+  /* Today panel */
+  .today-panel{background:var(--card);border:0.5px solid var(--line);border-radius:14px;padding:22px 24px;}
+  .today-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+  .today-date{font-family:var(--font-display);font-size:19px;color:var(--ink);}
+  .today-phase{font-size:13px;color:var(--indigo);margin-top:2px;}
+  .today-progress{font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);white-space:nowrap;}
+  .checklist{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .checklist li{display:flex;align-items:center;gap:12px;padding:10px 12px;border:0.5px solid var(--line);border-radius:8px;background:var(--paper);}
+  .checklist li.done{background:var(--moss-bg);}
+  .checklist .capp{font-size:11px;font-weight:600;color:var(--indigo);text-transform:uppercase;letter-spacing:.02em;width:88px;flex-shrink:0;}
+  .checklist label.task{flex:1;font-size:14px;color:var(--ink);cursor:pointer;}
+  .checklist .dur{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);flex-shrink:0;}
+  input[type=checkbox]{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:1.5px solid var(--seal);border-radius:4px;cursor:pointer;position:relative;flex-shrink:0;margin:0;}
+  input[type=checkbox]:checked{background:var(--seal);}
+  input[type=checkbox]:checked::after{content:'✓';position:absolute;color:#fff;font-size:13px;left:2px;top:-2px;}
+  .reset-btn{background:none;border:0.5px solid var(--line);color:var(--ink-soft);font-size:12px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:var(--font-mono);}
+  .reset-btn:hover{border-color:var(--ink-soft);}
+
+  /* Timetable tabs */
+  .tabs{display:flex;gap:4px;margin-bottom:14px;border-bottom:0.5px solid var(--line);}
+  .tab{background:none;border:none;padding:10px 16px;font-family:var(--font-body);font-size:14px;color:var(--ink-soft);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
+  .tab.active{color:var(--indigo);border-bottom-color:var(--indigo);font-weight:600;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .trow{display:flex;align-items:center;gap:16px;padding:11px 4px;border-bottom:0.5px solid var(--line);flex-wrap:wrap;}
+  .trow:last-child{border-bottom:none;}
+  .ttime{font-family:var(--font-mono);font-size:12.5px;color:var(--indigo);width:105px;flex-shrink:0;}
+  .tapp{font-size:11px;font-weight:600;color:var(--ink);width:130px;flex-shrink:0;text-transform:uppercase;letter-spacing:.02em;}
+  .tactivity{flex:1;font-size:14px;color:var(--ink);min-width:160px;}
+  .tdur{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-soft);}
+  .ttotal{margin-top:10px;font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);text-align:right;}
+  .tnote{margin-top:10px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+
+  /* Phase cards */
+  .phase-card{background:var(--card);border:0.5px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:14px;}
+  .phase-card-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;flex-wrap:wrap;gap:6px;}
+  .phase-card-head h3{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--ink);margin:0;}
+  .phase-card-head .pdate{font-family:var(--font-mono);font-size:12px;color:var(--ink-soft);}
+  .phase-card p.focus{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin:0 0 14px;}
+  .phase-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 20px;font-size:13px;}
+  .phase-stats div{padding-top:8px;border-top:0.5px solid var(--line);}
+  .phase-stats b{color:var(--indigo);font-weight:600;display:block;font-size:11px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:3px;}
+  .phase-stats span{color:var(--ink);}
+
+  footer.notes{font-size:13px;color:var(--ink-soft);border-top:0.5px solid var(--line);padding-top:20px;line-height:1.7;}
+  footer.notes ul{margin:0;padding-left:18px;}
+  footer.notes li{margin-bottom:6px;}
+
+  @media (max-width:640px){
+    h1{font-size:30px;}
+    .phase-track{grid-template-columns:1fr 1fr;}
+    .exam-badge{margin-left:0;width:100%;}
+    .ttime{width:80px;}
+    .tapp{width:100px;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <div class="eyebrow">日本語能力試験 &middot; JLPT preparation</div>
+    <h1>N2 study plan</h1>
+    <p class="sub">N3 &rarr; N2 &middot; Aug 11 &ndash; Dec 6, 2026 &middot; built for ~3+ hrs weekdays, 4&ndash;6 hrs weekends</p>
+    <div class="countdown-row">
+      <div class="countdown-stat"><span id="days-left">&mdash;</span><label>days to exam</label></div>
+      <div class="countdown-stat"><span id="phase-num">&mdash;</span><label>current phase</label></div>
+      <div class="exam-badge">
+        <div class="stamp">N2</div>
+        <div class="exam-text">Exam day<br><strong>Sun, Dec 6, 2026</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <section class="timeline">
+    <h2>Four phases to N2</h2>
+    <div class="phase-track">
+      <div class="phase-box" data-phase="p1">
+        <span class="now-tag">Now</span>
+        <div class="pname">Foundation sprint</div>
+        <div class="pdate">Aug 11 &ndash; Sep 21</div>
+        <div class="pfocus">Vocab + kanji from scratch, grammar begins</div>
+      </div>
+      <div class="phase-box" data-phase="p2">
+        <span class="now-tag">Now</span>
+        <div class="pname">Build-up</div>
+        <div class="pdate">Sep 22 &ndash; Oct 26</div>
+        <div class="pfocus">N2-level reading, weekly sectional mocks</div>
+      </div>
+      <div class="phase-box" data-phase="p3">
+        <span class="now-tag">Now</span>
+        <div class="pname">Exam simulation</div>
+        <div class="pdate">Oct 27 &ndash; Nov 30</div>
+        <div class="pfocus">Pure review, full mocks, timed reading</div>
+      </div>
+      <div class="phase-box" data-phase="p4">
+        <span class="now-tag">Now</span>
+        <div class="pname">Taper</div>
+        <div class="pdate">Dec 1 &ndash; Dec 6</div>
+        <div class="pfocus">Rest, light review, exam day</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Today</h2>
+    <div class="today-panel">
+      <div class="today-head">
+        <div>
+          <div class="today-date" id="today-date">&mdash;</div>
+          <div class="today-phase" id="today-phase-label">&mdash;</div>
+        </div>
+        <div class="today-progress" id="progress-frac">0 / 0 done</div>
+      </div>
+      <ul class="checklist" id="checklist"></ul>
+      <button class="reset-btn" id="reset-today" type="button">Reset today's checklist</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Daily rhythm</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="weekday" type="button">Weekday</button>
+      <button class="tab" data-tab="saturday" type="button">Saturday</button>
+      <button class="tab" data-tab="sunday" type="button">Sunday</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-weekday">
+      <div class="timetable">
+        <div class="trow"><span class="ttime">19:00&ndash;19:25</span><span class="tapp">Anki</span><span class="tactivity">Vocabulary reviews (SRS)</span><span class="tdur">25 min</span></div>
+        <div class="trow"><span class="ttime">19:25&ndash;20:00</span><span class="tapp">Kanji Dojo</span><span class="tactivity">New kanji + reviews</span><span class="tdur">35 min</span></div>
+        <div class="trow"><span class="ttime">20:00&ndash;20:45</span><span class="tapp">Renshuu</span><span class="tactivity">Grammar: new point + drills</span><span class="tdur">45 min</span></div>
+        <div class="trow"><span class="ttime">20:45&ndash;21:30</span><span class="tapp">Reading</span><span class="tactivity">Passage practice, level rises by phase</span><span class="tdur">45 min</span></div>
+        <div class="trow"><span class="ttime">21:30&ndash;22:05</span><span class="tapp">Immersion</span><span class="tactivity">YouTube / podcast</span><span class="tdur">35 min</span></div>
+      </div>
+      <div class="ttotal">&asymp; 3 hr 5 min total</div>
+      <div class="tnote">Clock times are just one example block &mdash; shift the whole thing earlier or later, the order and durations are what matter.</div>
+    </div>
+
+    <div class="tab-panel" id="panel-saturday">
+      <div class="timetable">
+        <div class="trow"><span class="ttime">10:00&ndash;10:40</span><span class="tapp">Anki + Kanji Dojo</span><span class="tactivity">Combined review session</span><span class="tdur">40 min</span></div>
+        <div class="trow"><span class="ttime">10:40&ndash;11:40</span><span class="tapp">Reading</span><span class="tactivity">Extended passage or short story</span><span class="tdur">60 min</span></div>
+        <div class="trow"><span class="ttime">11:40&ndash;12:25</span><span class="tapp">Renshuu</span><span class="tactivity">Weak-point grammar drilling</span><span class="tdur">45 min</span></div>
+        <div class="trow"><span class="ttime">14:00&ndash;16:00</span><span class="tapp">Immersion</span><span class="tactivity">Film or long-form video, Japanese subs</span><span class="tdur">90&ndash;120 min</span></div>
+      </div>
+      <div class="ttotal">&asymp; 4&ndash;4.5 hr total</div>
+    </div>
+
+    <div class="tab-panel" id="panel-sunday">
+      <div class="timetable">
+        <div class="trow"><span class="ttime">10:00&ndash;12:00</span><span class="tapp">Migii</span><span class="tactivity">Mock test &mdash; sectional in phase 2, full in phase 3</span><span class="tdur">90&ndash;150 min</span></div>
+        <div class="trow"><span class="ttime">12:00&ndash;13:00</span><span class="tapp">Review</span><span class="tactivity">Error log: redo and understand mistakes</span><span class="tdur">45&ndash;60 min</span></div>
+        <div class="trow"><span class="ttime">13:00&ndash;13:30</span><span class="tapp">Anki + Kanji Dojo</span><span class="tactivity">Light maintenance review</span><span class="tdur">30 min</span></div>
+        <div class="trow"><span class="ttime">Afternoon</span><span class="tapp">Free</span><span class="tactivity">Rest, flex, or extra immersion</span><span class="tdur">&mdash;</span></div>
+      </div>
+      <div class="ttotal">&asymp; 3&ndash;4.5 hr total, plus flex time</div>
+      <div class="tnote">In phase 1 (before mocks start), swap the Migii block for a lighter review-and-rest morning instead.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phase by phase</h2>
+
+    <div class="phase-card">
+      <div class="phase-card-head"><h3>Phase 1 &middot; Foundation sprint</h3><span class="pdate">Aug 11 &ndash; Sep 21 &middot; 6 weeks</span></div>
+      <p class="focus">Build the entire N2 vocabulary and kanji base from a standing start, while introducing grammar systematically. Reading stays at N3 level so comprehension doesn't stall while vocab ramps up.</p>
+      <div class="phase-stats">
+        <div><b>Anki</b><span>~20&ndash;25 new words/day + reviews</span></div>
+        <div><b>Kanji Dojo</b><span>~8&ndash;10 new kanji/day + reviews</span></div>
+        <div><b>Renshuu</b><span>~2&ndash;3 new grammar points/day</span></div>
+        <div><b>Reading</b><span>N3-level, comprehension-focused</span></div>
+        <div><b>Immersion</b><span>Casual, JP subtitles, no pressure</span></div>
+        <div><b>Migii</b><span>None &mdash; one baseline diagnostic in week 1</span></div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-card-head"><h3>Phase 2 &middot; Build-up</h3><span class="pdate">Sep 22 &ndash; Oct 26 &middot; 5 weeks</span></div>
+      <p class="focus">Finish new vocabulary and grammar intake, move reading up to N2-level material, and start weekly mock testing. Immersion becomes more structured.</p>
+      <div class="phase-stats">
+        <div><b>Anki</b><span>~15&ndash;18 new words/day, tapering</span></div>
+        <div><b>Kanji Dojo</b><span>Mostly review, clear stragglers early</span></div>
+        <div><b>Renshuu</b><span>Finish grammar list, drill confusable pairs</span></div>
+        <div><b>Reading</b><span>N2-level short/medium passages, timed</span></div>
+        <div><b>Immersion</b><span>YouTube/podcasts + weekend films, JP subs</span></div>
+        <div><b>Migii</b><span>Weekly sectional mock, Sundays</span></div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-card-head"><h3>Phase 3 &middot; Exam simulation</h3><span class="pdate">Oct 27 &ndash; Nov 30 &middot; 5 weeks</span></div>
+      <p class="focus">Stop adding new material &mdash; this phase is pure reinforcement and exam conditioning. Reading moves to full timed passages, immersion shifts toward listening without subtitles, and mock tests go full-length.</p>
+      <div class="phase-stats">
+        <div><b>Anki</b><span>Reviews only, clear leeches</span></div>
+        <div><b>Kanji Dojo</b><span>Reviews only</span></div>
+        <div><b>Renshuu</b><span>Targeted review of weak points</span></div>
+        <div><b>Reading</b><span>Full N2 section, timed, 2&ndash;3x/week</span></div>
+        <div><b>Immersion</b><span>Podcasts/dramas w/o subtitles &mdash; listening prep</span></div>
+        <div><b>Migii</b><span>Full mock weekly + Monday error review</span></div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-card-head"><h3>Phase 4 &middot; Taper</h3><span class="pdate">Dec 1 &ndash; Dec 6 &middot; exam week</span></div>
+      <p class="focus">Protect what you've built. No new material of any kind &mdash; just light review and rest.</p>
+      <div class="phase-stats">
+        <div><b>Tue Dec 1</b><span>Last full mock, review lightly</span></div>
+        <div><b>Wed&ndash;Fri Dec 2&ndash;4</b><span>Skim mistake notebook, light reviews only</span></div>
+        <div><b>Sat Dec 5</b><span>Very light review, prep materials, early night</span></div>
+        <div><b>Sun Dec 6</b><span>Exam day</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="notes">
+    <ul>
+      <li>Immersion time doubles as listening prep for 聴解 &mdash; by phase 3, favor unsubtitled audio over subtitled video.</li>
+      <li>The daily new-item paces above are ballpark figures, not official counts &mdash; JLPT hasn't published exact vocab/kanji lists since the 2010 revision. Adjust to match your actual Anki deck and Kanji Dojo course size.</li>
+      <li>Missed a day? Fold it into the weekend block rather than doubling up the next day &mdash; consistency beats cramming.</li>
+      <li>Today's checklist is saved on this device only, and resets each new day automatically.</li>
+    </ul>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  function d(y,m,day){ return new Date(y, m-1, day); }
+  function sameDate(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+  function dateKey(dt){ return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'); }
+  function fmtDate(dt){ return dt.toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'}); }
+
+  var PHASES = [
+    {id:'p1', name:'Foundation sprint', start:d(2026,8,11), end:d(2026,9,21)},
+    {id:'p2', name:'Build-up', start:d(2026,9,22), end:d(2026,10,26)},
+    {id:'p3', name:'Exam simulation', start:d(2026,10,27), end:d(2026,11,30)},
+    {id:'p4', name:'Taper', start:d(2026,12,1), end:d(2026,12,6)}
+  ];
+  var EXAM = d(2026,12,6);
+
+  var today = new Date(); today.setHours(0,0,0,0);
+
+  // Days to exam
+  var msPerDay = 24*60*60*1000;
+  var daysLeft = Math.ceil((EXAM - today) / msPerDay);
+  document.getElementById('days-left').textContent = daysLeft >= 0 ? daysLeft : 0;
+
+  // Current phase
+  var currentPhase = null, phaseIndex = -1;
+  for (var i=0;i<PHASES.length;i++){
+    if (today >= PHASES[i].start && today <= PHASES[i].end){ currentPhase = PHASES[i]; phaseIndex = i; break; }
+  }
+  if (!currentPhase && today < PHASES[0].start){ currentPhase = PHASES[0]; phaseIndex = 0; }
+  if (!currentPhase && today > PHASES[3].end){ currentPhase = PHASES[3]; phaseIndex = 3; }
+
+  document.getElementById('phase-num').textContent = (phaseIndex+1) + ' of 4';
+
+  var box = document.querySelector('.phase-box[data-phase="'+currentPhase.id+'"]');
+  if (box){ box.classList.add('active'); var tag = box.querySelector('.now-tag'); if (tag) tag.style.display='block'; }
+
+  // Today panel
+  document.getElementById('today-date').textContent = fmtDate(today);
+  document.getElementById('today-phase-label').textContent = currentPhase.name + (today < PHASES[0].start ? ' (starts soon)' : today > PHASES[3].end ? ' (exam has passed)' : '');
+
+  function getTasks(dayOfWeek, phaseId, dt){
+    if (phaseId === 'p4'){
+      if (dt.getDate()===1 && dt.getMonth()===11) return [
+        {id:'final-mock', app:'Migii', label:'Final full mock test', dur:'120-150 min'},
+        {id:'review', app:'Review', label:'Light review of results', dur:'30 min'}
+      ];
+      if (dt.getDate()>=2 && dt.getDate()<=4 && dt.getMonth()===11) return [
+        {id:'notebook', app:'Review', label:'Skim mistake notebook', dur:'20-30 min'},
+        {id:'anki', app:'Anki', label:'Reviews only, no new cards', dur:'20 min'},
+        {id:'kanji', app:'Kanji Dojo', label:'Reviews only', dur:'15 min'}
+      ];
+      if (dt.getDate()===5 && dt.getMonth()===11) return [
+        {id:'light-review', app:'Review', label:'Very light skim + prep materials and ID', dur:'20 min'},
+        {id:'sleep', app:'Rest', label:'Early night, protect your sleep', dur:'-'}
+      ];
+      return [{id:'exam', app:'Exam', label:'JLPT N2 exam day, good luck', dur:'-'}];
+    }
+    var readingLabel = phaseId==='p1' ? 'N3-level reading passage' : phaseId==='p2' ? 'N2-level reading, timed' : 'N2 reading, exam-timed';
+    var immersionLabel = phaseId==='p1' ? 'YouTube with JP subtitles (casual)' : phaseId==='p2' ? 'YouTube/podcast, JP subs' : 'Podcast/drama, no subtitles';
+    if (dayOfWeek >=1 && dayOfWeek<=5){
+      return [
+        {id:'anki', app:'Anki', label:'Vocabulary reviews (SRS)', dur:'25 min'},
+        {id:'kanji', app:'Kanji Dojo', label:'New kanji + reviews', dur:'35 min'},
+        {id:'grammar', app:'Renshuu', label:'Grammar: new point + drills', dur:'45 min'},
+        {id:'reading', app:'Reading', label:readingLabel, dur:'45 min'},
+        {id:'immersion', app:'Immersion', label:immersionLabel, dur:'35 min'}
+      ];
+    }
+    if (dayOfWeek===6){
+      return [
+        {id:'anki-kanji', app:'Anki + Kanji Dojo', label:'Combined review session', dur:'40 min'},
+        {id:'reading-ext', app:'Reading', label:'Extended passage or short story', dur:'60 min'},
+        {id:'grammar-drill', app:'Renshuu', label:'Weak-point grammar drilling', dur:'45 min'},
+        {id:'immersion-long', app:'Immersion', label:'Film or long-form video, JP subs', dur:'90-120 min'}
+      ];
+    }
+    // Sunday
+    if (phaseId==='p1') return [{id:'review-light', app:'Review', label:'Skim missed Anki/Kanji cards + light reading', dur:'45-60 min'}];
+    return [
+      {id:'migii', app:'Migii', label: phaseId==='p2' ? 'Sectional mock (vocab/grammar/reading)' : 'Full mock (all sections + listening)', dur: phaseId==='p2' ? '60-90 min' : '120-150 min'},
+      {id:'review', app:'Review', label:'Error log: redo and understand mistakes', dur:'45-60 min'},
+      {id:'maintenance', app:'Anki + Kanji Dojo', label:'Light maintenance review', dur:'30 min'}
+    ];
+  }
+
+  var tasks = getTasks(today.getDay(), currentPhase.id, today);
+  var listEl = document.getElementById('checklist');
+  var storageKey = 'checklist:' + dateKey(today);
+
+  function renderProgress(){
+    var boxes = listEl.querySelectorAll('input[type=checkbox]');
+    var done = 0; boxes.forEach(function(b){ if (b.checked) done++; });
+    document.getElementById('progress-frac').textContent = done + ' / ' + boxes.length + ' done';
+  }
+
+  function buildList(checkedIds){
+    listEl.innerHTML = '';
+    tasks.forEach(function(t){
+      var li = document.createElement('li');
+      var isDone = checkedIds.indexOf(t.id) !== -1;
+      if (isDone) li.classList.add('done');
+      var cbId = 'chk-' + t.id;
+      li.innerHTML =
+        '<input type="checkbox" id="'+cbId+'" '+(isDone?'checked':'')+'>' +
+        '<span class="capp">'+t.app+'</span>' +
+        '<label class="task" for="'+cbId+'">'+t.label+'</label>' +
+        '<span class="dur">'+t.dur+'</span>';
+      listEl.appendChild(li);
+      var cb = li.querySelector('input');
+      cb.addEventListener('change', function(){
+        li.classList.toggle('done', cb.checked);
+        saveState();
+        renderProgress();
+      });
+    });
+    renderProgress();
+  }
+
+  function saveState(){
+    var checked = [];
+
+    listEl.querySelectorAll('input[type=checkbox]').forEach(function(cb, idx){
+      if (cb.checked) checked.push(tasks[idx].id);
+    });
+
+    localStorage.setItem(storageKey, JSON.stringify(checked));
+  }
+
+  function loadState(){
+    var checkedIds = [];
+
+    try {
+      var value = localStorage.getItem(storageKey);
+      if (value) checkedIds = JSON.parse(value);
+    } catch(e) {
+      console.error('Could not load checklist:', e);
+    }
+
+    buildList(checkedIds);
+  }
+
+  loadState();
+
+  document.getElementById('reset-today').addEventListener('click', function(){
+    localStorage.removeItem(storageKey);
+    buildList([]);
+  });
+
+  // Tabs
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
