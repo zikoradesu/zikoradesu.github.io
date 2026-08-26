@@ -104,42 +104,60 @@ body {
 }
 
 .study-page .countdown-stat .countdown-label {
+  font-family: var(--font-body);
   font-size: 12px;
   color: var(--ink-soft);
   margin-top: 4px;
   display: block;
 }
 
-.study-page .exam-badge {
-  margin-left: auto;
+.study-page .study-account {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 0 0 40px;
+}
+
+.study-page .signout-button {
+  border: 0.5px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-soft);
+  font: 500 12px var(--font-body);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.study-page .signout-button:hover {
+  color: var(--ink);
+  border-color: var(--ink-soft);
+}
+
+.study-page .profile {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.study-page .stamp {
+.study-page .profile-picture {
   width: 54px;
   height: 54px;
   border-radius: 8px;
-  background: var(--seal);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 600;
-  transform: rotate(-6deg);
+  object-fit: cover;
   flex-shrink: 0;
 }
 
-.study-page .exam-badge .exam-text {
+.study-page .profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   font-size: 13px;
   color: var(--ink-soft);
   line-height: 1.4;
 }
 
-.study-page .exam-badge strong {
+.study-page .profile-details strong {
   color: var(--ink);
   font-weight: 600;
 }
@@ -502,9 +520,8 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 
-  .study-page .exam-badge {
-    margin-left: 0;
-    width: 100%;
+  .study-page .study-account {
+    align-items: flex-start;
   }
 
   .study-page .ttime {

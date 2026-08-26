@@ -1,28 +1,26 @@
 <script>
-  export let title = 'N2 study plan';
-  export let subtitle = 'N3 → N2 · Aug 11 – Dec 6, 2026 · built for ~3+ hrs weekdays, 4–6 hrs weekends';
+  export let eyebrow = '';
+  export let title = '';
+  export let subtitle = '';
   export let daysLeft = 0;
   export let currentPhase = 1;
   export let totalPhases = 4;
-  export let examDate = 'Sun, Dec 6, 2026';
+  export let daysToExamLabel = '';
+  export let currentPhaseLabel = '';
 </script>
 
 <header class="hero">
-  <div class="eyebrow">日本語能力試験 &middot; JLPT preparation</div>
+  <div class="eyebrow">{eyebrow}</div>
   <h1>{title}</h1>
   <p class="sub">{subtitle}</p>
   <div class="countdown-row">
     <div class="countdown-stat">
       <span>{daysLeft}</span>
-      <span class="countdown-label">days to exam</span>
+      <span class="countdown-label">{daysToExamLabel}</span>
     </div>
     <div class="countdown-stat">
       <span>{currentPhase} of {totalPhases}</span>
-      <span class="countdown-label">current phase</span>
-    </div>
-    <div class="exam-badge">
-      <div class="stamp">N2</div>
-      <div class="exam-text">Exam day<br><strong>{examDate}</strong></div>
+      <span class="countdown-label">{currentPhaseLabel}</span>
     </div>
   </div>
 </header>
