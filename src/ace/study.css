@@ -25,6 +25,10 @@
   }
 }
 
+body {
+  margin: 0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -99,7 +103,7 @@
   display: block;
 }
 
-.study-page .countdown-stat label {
+.study-page .countdown-stat .countdown-label {
   font-size: 12px;
   color: var(--ink-soft);
   margin-top: 4px;
@@ -260,7 +264,7 @@
   flex-shrink: 0;
 }
 
-.study-page .checklist label.task {
+.study-page .checklist span.task {
   flex: 1;
   font-size: 14px;
   color: var(--ink);
