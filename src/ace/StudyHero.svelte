@@ -3,6 +3,7 @@
   export let subtitle = 'N3 → N2 · Aug 11 – Dec 6, 2026 · built for ~3+ hrs weekdays, 4–6 hrs weekends';
   export let daysLeft = 0;
   export let currentPhase = 1;
+  export let totalPhases = 4;
   export let examDate = 'Sun, Dec 6, 2026';
 </script>
 
@@ -16,7 +17,7 @@
       <span class="countdown-label">days to exam</span>
     </div>
     <div class="countdown-stat">
-      <span>{currentPhase}</span>
+      <span>{currentPhase} of {totalPhases}</span>
       <span class="countdown-label">current phase</span>
     </div>
     <div class="exam-badge">
