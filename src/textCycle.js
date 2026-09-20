@@ -1,9 +1,8 @@
-const defaultCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョー';
+const defaultCharacters = '!<>-_\\/[]{}—=+*^?#________ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンァィゥェォャュョー';
 
 export function createTextCycle(values, options = {}) {
   const {
-    intervalMs = 2000,
-    scrambleMs = 500,
+    intervalMs = 2600,
     characters = defaultCharacters,
   } = options;
 
@@ -11,52 +10,76 @@ export function createTextCycle(values, options = {}) {
   let currentValue = values[0] ?? '';
 
   function scrambleText(targetText, updateCallback) {
+    const queue = [];
+    const oldText = currentValue;
+    const length = Math.max(oldText.length, targetText.length);
+
     return new Promise((resolve) => {
-      const start = performance.now();
+      for (let i = 0; i < length; i += 1) {
+        const from = oldText[i] || '';
+        const to = targetText[i] || '';
+        const start = Math.floor(Math.random() * 50);
+        const end = start + Math.floor(Math.random() * 60) + 10;
+        queue.push({ from, to, start, end, char: '' });
+      }
 
-      const tick = (now) => {
-        const progress = Math.min((now - start) / scrambleMs, 1);
-        let nextText = '';
+      let frame = 0;
 
-        for (let i = 0; i < targetText.length; i += 1) {
-          if (i < Math.floor(progress * targetText.length)) {
-            nextText += targetText[i];
+      const update = () => {
+        let output = '';
+        let complete = 0;
+
+        for (let i = 0, n = queue.length; i < n; i += 1) {
+          let { from, to, start, end, char } = queue[i];
+
+          if (frame >= end) {
+            complete += 1;
+            output += to;
+          } else if (frame >= start) {
+            if (!char || Math.random() < 0.12) {
+              queue[i].char = characters[Math.floor(Math.random() * characters.length)];
+            }
+            output += queue[i].char;
           } else {
-            nextText += characters[Math.floor(Math.random() * characters.length)];
+            output += from;
           }
         }
 
-        updateCallback(nextText);
+        updateCallback(output);
 
-        if (progress < 1) {
-          requestAnimationFrame(tick);
-        } else {
-          updateCallback(targetText);
+        if (complete === queue.length) {
+          currentValue = targetText;
+          updateCallback(currentValue);
           resolve();
+        } else {
+          requestAnimationFrame(update);
+          frame += 1;
         }
       };
 
-      requestAnimationFrame(tick);
+      update();
     });
   }
 
   function start(updateCallback) {
-    const cycle = async () => {
+    const tick = async () => {
       index = (index + 1) % values.length;
       await scrambleText(values[index], updateCallback);
+      setTimeout(tick, intervalMs);
     };
 
-    const intervalId = setInterval(cycle, intervalMs);
+    updateCallback(currentValue);
+    const id = setTimeout(tick, intervalMs);
 
-    return () => clearInterval(intervalId);
+    return () => clearTimeout(id);
   }
 
   return {
+    start,
+    scrambleText,
     getValue: () => currentValue,
     update: (nextValue) => {
       currentValue = nextValue;
     },
-    start,
-    scrambleText,
   };
 }
