@@ -1,6 +1,6 @@
 # zikoradesu.github.io
 
-A small Svelte site for [zikora.me](https://zikora.me), built as a static Vite project.
+[zikora.me](https://zikora.me), a small vite project.
 
 ## Development
 
