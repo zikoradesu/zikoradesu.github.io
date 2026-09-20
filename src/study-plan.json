@@ -2,75 +2,134 @@
   "examDate": "2026-12-06",
   "hero": {
     "eyebrow": "日本語能力試験 · JLPT preparation",
-    "title": "N2 study plan",
-    "subtitle": "N3 → N2 · Aug 11 – Dec 6, 2026 · built for ~3+ hrs weekdays, 4–6 hrs weekends",
+    "title": "N2 study plan — reset after the mock",
+    "subtitle": "Sep 21 – Dec 6, 2026 · ~2.5–3 hrs weekdays, 4–6 hrs weekends",
     "daysToExamLabel": "days to exam",
     "currentPhaseLabel": "current phase",
     "profile": {
       "image": "https://github.com/zikoradesu.png?size=128",
       "imageAlt": "Zikora Ogbuagu",
       "name": "ZIKORA OGBUAGU",
-      "levelTransition": "N3 -> N2"
+      "levelTransition": "N2 mock: 119.8/180 (passed) -> strengthening for Dec 6"
     }
+  },
+  "diagnostic": {
+    "label": "Sept 20 mock result",
+    "date": "2026-09-20",
+    "source": "Migii mock test",
+    "total": "119.8/180 · Passed",
+    "sections": [
+      {
+        "id": "vocab",
+        "name": "Vocabulary",
+        "score": 59,
+        "correct": "19/32",
+        "subskills": [
+          { "name": "Kanji reading", "pct": 80 },
+          { "name": "Orthography", "pct": 40 },
+          { "name": "Word formation", "pct": 40 },
+          { "name": "Contextually-defined expressions", "pct": 57 },
+          { "name": "Paraphrases", "pct": 60 },
+          { "name": "Usage", "pct": 80 }
+        ]
+      },
+      {
+        "id": "grammar",
+        "name": "Grammar",
+        "score": 62,
+        "correct": "13/21",
+        "subskills": [
+          { "name": "Grammar form", "pct": 67 },
+          { "name": "Sentence composition", "pct": 60 },
+          { "name": "Text grammar", "pct": 50 }
+        ]
+      },
+      {
+        "id": "reading",
+        "name": "Reading",
+        "score": 52,
+        "correct": "11/21",
+        "subskills": [
+          { "name": "Short passages", "pct": 40 },
+          { "name": "Mid-size passages", "pct": 63 },
+          { "name": "Reading comprehension", "pct": 33 },
+          { "name": "Thematic comprehension", "pct": 67 },
+          { "name": "Information retrieval", "pct": 50 }
+        ]
+      },
+      {
+        "id": "listening",
+        "name": "Listening",
+        "score": 81,
+        "correct": "26/32",
+        "subskills": [
+          { "name": "Task-based comprehension", "pct": 60 },
+          { "name": "Comprehension of key points", "pct": 83 },
+          { "name": "Comprehension of general outline", "pct": 100 },
+          { "name": "Quick response", "pct": 75 },
+          { "name": "Listening comprehension", "pct": 100 }
+        ]
+      }
+    ]
   },
   "phases": [
     {
       "id": "p1",
-      "name": "Foundation sprint",
-      "start": "2026-08-11",
-      "end": "2026-09-21",
-      "range": "Aug 11 – Sep 21",
-      "focus": "Vocab + kanji from scratch, grammar begins",
+      "name": "Vocab & Kanji Catch-Up Sprint",
+      "start": "2026-09-21",
+      "end": "2026-10-18",
+      "range": "Sep 21 – Oct 18",
+      "focus": "Vocab and kanji backlog, cleared aggressively",
       "card": {
-        "title": "Phase 1 · Foundation sprint",
-        "range": "Aug 11 – Sep 21 · 6 weeks",
-        "focus": "Build the entire N2 vocabulary and kanji base from a standing start, while introducing grammar systematically. Reading stays at N3 level so comprehension doesn't stall while vocab ramps up.",
+        "title": "Phase 1 · Vocab & Kanji Catch-Up Sprint",
+        "range": "Sep 21 – Oct 18 · 4 weeks",
+        "focus": "The mock's weakest section was Vocabulary at 59%, dragged down by Orthography and Word formation at 40% each. This phase exists to close that gap before anything else. Grammar and reading drop to maintenance so Anki and Kanji Dojo get the time. Immersion stays exactly as it is — it's already carrying Listening to 81%.",
         "stats": [
-          { "label": "Anki", "value": "~20–25 new words/day + reviews" },
-          { "label": "Kanji Dojo", "value": "~8–10 new kanji/day + reviews" },
-          { "label": "Renshuu", "value": "~2–3 new grammar points/day" },
-          { "label": "Reading", "value": "N3-level, comprehension-focused" },
-          { "label": "Immersion", "value": "Casual, JP subtitles, no pressure" },
-          { "label": "Migii", "value": "None — one baseline diagnostic in week 1" }
+          { "label": "Anki", "value": "~35–40 new words/day, plus a dedicated backlog-clearing pass" },
+          { "label": "Kanji Dojo", "value": "~15–18 new kanji/day, weighted toward orthography and word-formation drills" },
+          { "label": "Renshuu", "value": "Maintenance only — review existing grammar, no new points added" },
+          { "label": "Reading", "value": "N3→N2 transition, short passages (your weakest reading subskill at 40%)" },
+          { "label": "Immersion", "value": "Unchanged — JP subtitles, same as you've been doing" },
+          { "label": "Migii", "value": "None yet — the Sept 20 mock is this cycle's baseline" }
         ]
       }
     },
     {
       "id": "p2",
-      "name": "Build-up",
-      "start": "2026-09-22",
-      "end": "2026-10-26",
-      "range": "Sep 22 – Oct 26",
-      "focus": "N2-level reading, weekly sectional mocks",
+      "name": "Build-Up & Reading Focus",
+      "start": "2026-10-19",
+      "end": "2026-11-15",
+      "range": "Oct 19 – Nov 15",
+      "focus": "New-item pace tapers, reading gets the extra time",
       "card": {
-        "title": "Phase 2 · Build-up",
-        "range": "Sep 22 – Oct 26 · 5 weeks",
-        "focus": "Finish new vocabulary and grammar intake, move reading up to N2-level material, and start weekly mock testing. Immersion becomes more structured.",
+        "title": "Phase 2 · Build-Up & Reading Focus",
+        "range": "Oct 19 – Nov 15 · 4 weeks",
+        "focus": "Once the vocab and kanji backlog is under control, new-item pace tapers and the freed-up time moves to Reading — the second-weakest section at 52%, mostly from Reading comprehension (33%) and Short passages (40%). Grammar work narrows to Sentence composition and Text grammar, the two subskills that pulled Grammar down to 62%. Weekly sectional mocks start here.",
         "stats": [
-          { "label": "Anki", "value": "~15–18 new words/day, tapering" },
-          { "label": "Kanji Dojo", "value": "Mostly review, clear stragglers early" },
-          { "label": "Renshuu", "value": "Finish grammar list, drill confusable pairs" },
-          { "label": "Reading", "value": "N2-level short/medium passages, timed" },
-          { "label": "Immersion", "value": "YouTube/podcasts + weekend films, JP subs" },
+          { "label": "Anki", "value": "~15–20 new words/day, tapering as the backlog clears" },
+          { "label": "Kanji Dojo", "value": "Mostly reviews, close out any stragglers" },
+          { "label": "Renshuu", "value": "Targeted drilling: sentence composition and text grammar" },
+          { "label": "Reading", "value": "Full N2 short and mid passages, timed, comprehension-speed drills" },
+          { "label": "Immersion", "value": "Structured, start easing off subtitles" },
           { "label": "Migii", "value": "Weekly sectional mock, Sundays" }
         ]
       }
     },
     {
       "id": "p3",
-      "name": "Exam simulation",
-      "start": "2026-10-27",
+      "name": "Exam Simulation",
+      "start": "2026-11-16",
       "end": "2026-11-30",
-      "range": "Oct 27 – Nov 30",
+      "range": "Nov 16 – Nov 30",
       "focus": "Pure review, full mocks, timed reading",
       "card": {
-        "title": "Phase 3 · Exam simulation",
-        "range": "Oct 27 – Nov 30 · 5 weeks",
-        "focus": "Stop adding new material — this phase is pure reinforcement and exam conditioning. Reading moves to full timed passages, immersion shifts toward listening without subtitles, and mock tests go full-length.",
+        "title": "Phase 3 · Exam Simulation",
+        "range": "Nov 16 – Nov 30 · 2 weeks",
+        "focus": "No new material. Pure reinforcement and exam conditioning — full mocks every week, reading under real timing, and listening without subtitles. Listening is already the strongest section at 81%, so the goal here is just to keep it sharp, not rebuild it.",
         "stats": [
           { "label": "Anki", "value": "Reviews only, clear leeches" },
           { "label": "Kanji Dojo", "value": "Reviews only" },
-          { "label": "Renshuu", "value": "Targeted review of weak points" },
+          { "label": "Renshuu", "value": "Targeted review of remaining weak points" },
           { "label": "Reading", "value": "Full N2 section, timed, 2–3x/week" },
           { "label": "Immersion", "value": "Podcasts/dramas w/o subtitles — listening prep" },
           { "label": "Migii", "value": "Full mock weekly + Monday error review" }
@@ -99,21 +158,22 @@
   ],
   "tasks": {
     "weekday": [
-      { "id": "anki", "category": "Anki", "label": "Vocabulary reviews (SRS)", "duration": "25 min" },
-      { "id": "kanji", "category": "Kanji Dojo", "label": "New kanji + reviews", "duration": "35 min" },
-      { "id": "grammar", "category": "Renshuu", "label": "Grammar: new point + drills", "duration": "45 min" },
-      { "id": "reading", "category": "Reading", "labelByPhase": { "p1": "N3-level reading passage", "p2": "N2-level reading, timed", "p3": "N2 reading, exam-timed" }, "duration": "45 min" },
-      { "id": "immersion", "category": "Immersion", "labelByPhase": { "p1": "YouTube with JP subtitles (casual)", "p2": "YouTube/podcast, JP subs", "p3": "Podcast/drama, no subtitles" }, "duration": "35 min" }
+      { "id": "anki", "category": "Anki", "label": "Vocabulary reviews (SRS) + backlog clearing", "durationByPhase": { "p1": "40 min", "p2": "25 min", "p3": "20 min" } },
+      { "id": "kanji", "category": "Kanji Dojo", "label": "New kanji + reviews, orthography/word-formation drills", "durationByPhase": { "p1": "45 min", "p2": "20 min", "p3": "15 min" } },
+      { "id": "grammar", "category": "Renshuu", "label": "Grammar: targeted review (sentence composition, text grammar)", "durationByPhase": { "p1": "20 min", "p2": "35 min", "p3": "25 min" } },
+      { "id": "reading", "category": "Reading", "labelByPhase": { "p1": "N3→N2 transition, short passages + comprehension drills", "p2": "N2-level reading, timed, comprehension speed", "p3": "N2 reading, exam-timed" }, "durationByPhase": { "p1": "40 min", "p2": "60 min", "p3": "45 min" } },
+      { "id": "immersion", "category": "Immersion", "labelByPhase": { "p1": "YouTube with JP subtitles (unchanged)", "p2": "YouTube/podcast, easing off subtitles", "p3": "Podcast/drama, no subtitles" }, "duration": "35 min" }
     ],
     "saturday": [
-      { "id": "anki-kanji", "category": "Anki + Kanji Dojo", "label": "Combined review session", "duration": "40 min" },
-      { "id": "reading-ext", "category": "Reading", "label": "Extended passage or short story", "duration": "60 min" },
-      { "id": "grammar-drill", "category": "Renshuu", "label": "Weak-point grammar drilling", "duration": "45 min" },
+      { "id": "anki-kanji", "category": "Anki + Kanji Dojo", "label": "Combined vocab/kanji backlog session", "durationByPhase": { "p1": "75 min", "p2": "40 min", "p3": "30 min" } },
+      { "id": "reading-ext", "category": "Reading", "label": "Extended passage or short story, comprehension focus", "durationByPhase": { "p1": "45 min", "p2": "75 min", "p3": "60 min" } },
+      { "id": "grammar-drill", "category": "Renshuu", "label": "Weak-point grammar drilling (sentence composition, text grammar)", "duration": "45 min" },
       { "id": "immersion-long", "category": "Immersion", "label": "Film or long-form video, JP subs", "duration": "90-120 min" }
     ],
     "sunday": {
       "p1": [
-        { "id": "review-light", "category": "Review", "label": "Skim missed Anki/Kanji cards + light reading", "duration": "45-60 min" }
+        { "id": "review-light", "category": "Review", "label": "Skim missed Anki/Kanji cards + light reading", "duration": "45-60 min" },
+        { "id": "backlog-catchup", "category": "Anki + Kanji Dojo", "label": "Extra backlog-clearing session (leeches, overdue reviews)", "duration": "45-60 min" }
       ],
       "p2": [
         { "id": "migii", "category": "Migii", "label": "Sectional mock (vocab/grammar/reading)", "duration": "60-90 min" },
@@ -150,43 +210,43 @@
       "id": "weekday",
       "label": "Weekday",
       "rows": [
-        { "time": "19:00–19:25", "app": "Anki", "activity": "Vocabulary reviews (SRS)", "duration": "25 min" },
-        { "time": "19:25–20:00", "app": "Kanji Dojo", "activity": "New kanji + reviews", "duration": "35 min" },
-        { "time": "20:00–20:45", "app": "Renshuu", "activity": "Grammar: new point + drills", "duration": "45 min" },
-        { "time": "20:45–21:30", "app": "Reading", "activity": "Passage practice, level rises by phase", "duration": "45 min" },
-        { "time": "21:30–22:05", "app": "Immersion", "activity": "YouTube / podcast", "duration": "35 min" }
+        { "time": "19:00–19:40", "app": "Anki", "activity": "Vocabulary reviews + backlog clearing", "duration": "40 min" },
+        { "time": "19:40–20:25", "app": "Kanji Dojo", "activity": "New kanji + reviews", "duration": "45 min" },
+        { "time": "20:25–20:45", "app": "Renshuu", "activity": "Grammar maintenance review", "duration": "20 min" },
+        { "time": "20:45–21:25", "app": "Reading", "activity": "Short passages, N3→N2 transition", "duration": "40 min" },
+        { "time": "21:25–22:00", "app": "Immersion", "activity": "YouTube / podcast", "duration": "35 min" }
       ],
-      "total": "≈ 3 hr 5 min total",
-      "note": "Clock times are just one example block — shift the whole thing earlier or later, the order and durations are what matter."
+      "total": "≈ 3 hr total (Phase 1 split)",
+      "note": "Clock times are just one example block — shift the whole thing earlier or later. Minutes-per-app shift by phase; check each phase card for its split."
     },
     {
       "id": "saturday",
       "label": "Saturday",
       "rows": [
-        { "time": "10:00–10:40", "app": "Anki + Kanji Dojo", "activity": "Combined review session", "duration": "40 min" },
-        { "time": "10:40–11:40", "app": "Reading", "activity": "Extended passage or short story", "duration": "60 min" },
-        { "time": "11:40–12:25", "app": "Renshuu", "activity": "Weak-point grammar drilling", "duration": "45 min" },
+        { "time": "10:00–11:15", "app": "Anki + Kanji Dojo", "activity": "Combined backlog session", "duration": "75 min" },
+        { "time": "11:15–12:00", "app": "Reading", "activity": "Extended passage, comprehension focus", "duration": "45 min" },
+        { "time": "12:00–12:45", "app": "Renshuu", "activity": "Weak-point grammar drilling", "duration": "45 min" },
         { "time": "14:00–16:00", "app": "Immersion", "activity": "Film or long-form video, Japanese subs", "duration": "90–120 min" }
       ],
-      "total": "≈ 4–4.5 hr total"
+      "total": "≈ 4.25–4.75 hr total (Phase 1 split)"
     },
     {
       "id": "sunday",
       "label": "Sunday",
       "rows": [
-        { "time": "10:00–12:00", "app": "Migii", "activity": "Mock test — sectional in phase 2, full in phase 3", "duration": "90–150 min" },
-        { "time": "12:00–13:00", "app": "Review", "activity": "Error log: redo and understand mistakes", "duration": "45–60 min" },
-        { "time": "13:00–13:30", "app": "Anki + Kanji Dojo", "activity": "Light maintenance review", "duration": "30 min" },
+        { "time": "10:00–11:00", "app": "Review", "activity": "Skim missed cards + light reading", "duration": "45–60 min" },
+        { "time": "11:00–12:00", "app": "Anki + Kanji Dojo", "activity": "Extra backlog-clearing session", "duration": "45–60 min" },
         { "time": "Afternoon", "app": "Free", "activity": "Rest, flex, or extra immersion", "duration": "—" }
       ],
-      "total": "≈ 3–4.5 hr total, plus flex time",
-      "note": "In phase 1 (before mocks start), swap the Migii block for a lighter review-and-rest morning instead."
+      "total": "≈ 2–2.5 hr total (lighter — mocks resume in Phase 2)",
+      "note": "From Phase 2 onward this slot becomes the Migii mock + error-log block instead — see phase cards."
     }
   ],
   "footerNotes": [
-    "Immersion time doubles as listening prep for 聴解 — by phase 3, favor unsubtitled audio over subtitled video.",
+    "This plan resets from the Sept 20 mock (119.8/180, passed) — Phase 1 exists specifically to close the Vocabulary gap (59%, driven by Orthography and Word formation at 40% each) before Migii mocks resume in Phase 2.",
+    "Listening was already the strongest section at 81% — immersion time isn't being reallocated, since it's clearly working.",
     "The daily new-item paces above are ballpark figures, not official counts — JLPT hasn't published exact vocab/kanji lists since the 2010 revision. Adjust to match your actual Anki deck and Kanji Dojo course size.",
-    "Missed a day? Fold it into the weekend block rather than doubling up the next day — consistency beats cramming.",
+    "Missed a day? Fold it into the weekend block rather than doubling up the next day — consistency beats cramming, especially during the Phase 1 sprint.",
     "Today's checklist is saved on this device only, and resets each new day automatically."
   ]
 }
