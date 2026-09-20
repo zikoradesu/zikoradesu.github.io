@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting…</title>
+    <script>
+      (() => {
+        const pathname = window.location.pathname;
+        const repoBase = pathname.startsWith('/zikoradesu.github.io')
+          ? '/zikoradesu.github.io'
+          : '';
+        const trimmed = pathname.replace(/\/+$/, '');
+
+        if (trimmed === `${repoBase}/study` || trimmed === `${repoBase}/study/`) {
+          window.location.replace(`${repoBase}/study/index.html`);
+          return;
+        }
+
+        sessionStorage.setItem('gh-pages-redirect', pathname);
+        window.location.replace(`${repoBase}/index.html`);
+      })();
+    </script>
+  </head>
+  <body>
+    Redirecting…
+  </body>
+</html>
