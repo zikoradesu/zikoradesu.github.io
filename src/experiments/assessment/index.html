@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zikora.me / study — diagnostic breakdown</title>
+
+<!-- ═══ COPY 1 of 3: fonts (keep if your page doesn't already load them) ═══ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Spline+Sans+Mono:wght@300..700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ── demo-page chrome only (you don't need this when integrating) ── */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#f4edde;color:#241e14;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1120px;margin:0 auto;padding-left:clamp(20px,5vw,56px);padding-right:clamp(20px,5vw,56px)}
+.site{max-width:1120px;margin:0 auto;padding:20px clamp(20px,5vw,56px);display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(36,30,20,.16)}
+.brand{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:21px;color:inherit;text-decoration:none}
+.brand b{color:#c2401a;font-weight:600}
+.site nav{display:flex;gap:22px}
+.site nav a{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(36,30,20,.55);text-decoration:none}
+.site nav a.on{color:#241e14;border-bottom:2px solid #c2401a;padding-bottom:3px}
+.tl h2{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:36px;margin:10px 0 8px}
+.tl .wrap{padding-top:84px;padding-bottom:130px}
+.tl-k{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(36,30,20,.42)}
+.tl p{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.04em;color:rgba(36,30,20,.45)}
+
+/* floating tooltip */
+#dxTip{position:fixed;left:0;top:0;z-index:999;pointer-events:none;opacity:0;transition:opacity .16s ease;background:#241e14;color:rgba(244,237,222,.94);font-family:'Spline Sans Mono',monospace;font-size:11.5px;line-height:1.5;padding:7px 11px;border-left:2px solid #c2401a;max-width:290px;border-radius:2px}
+#dxTip.on{opacity:1}
+#dxTip b{font-weight:600;color:#f4edde}
+
+/* ════════════════════════════════════════════════════════════════════
+   COPY 2 of 3: the diagnostic section's styles
+   ════════════════════════════════════════════════════════════════════ */
+:where(#diagnostic){
+  --paper:#f4edde; --ink:#241e14; --verm:#c2401a;
+  --line:rgba(36,30,20,.16); --line2:rgba(36,30,20,.5);
+  --t2:rgba(36,30,20,.62); --t3:rgba(36,30,20,.42);
+  position:relative;background:var(--paper);color:var(--ink);padding:26px 0 88px;
+}
+/* paper grain */
+:where(#diagnostic)::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+:where(#diagnostic) ::selection{background:var(--verm);color:var(--paper)}
+:where(#diagnostic) :focus-visible{outline:2px solid var(--verm);outline-offset:3px}
+:where(#diagnostic) .mo{font-family:'Spline Sans Mono',ui-monospace,SFMono-Regular,monospace}
+
+/* ── kicker + headline ── */
+:where(#diagnostic) .dx-kicker{display:flex;justify-content:space-between;gap:10px 24px;flex-wrap:wrap;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);padding:14px 0;font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--t2)}
+:where(#diagnostic) .dx-head{display:grid;grid-template-columns:1fr minmax(270px,390px);gap:26px 64px;align-items:end;padding:44px 0 48px}
+:where(#diagnostic) .t-wrap{display:flex;gap:26px;align-items:stretch}
+:where(#diagnostic) .t-vert{position:relative;writing-mode:vertical-rl;font-family:'Zen Old Mincho',serif;font-weight:700;font-size:15px;letter-spacing:.4em;color:var(--t2);border-left:1px solid var(--line2);padding:26px 0 0 18px}
+:where(#diagnostic) .t-vert::before{content:"";position:absolute;top:0;left:18px;width:10px;height:10px;background:var(--verm)}
+:where(#diagnostic) h1{margin:0;font-family:'Fraunces',serif;font-optical-sizing:auto;font-weight:500;font-size:clamp(46px,7.4vw,94px);line-height:.96;letter-spacing:-.02em}
+:where(#diagnostic) h1 em{font-style:italic}
+:where(#diagnostic) .t-dek{margin:0;font-size:16.5px;line-height:1.68;color:rgba(36,30,20,.86);border-top:2px solid var(--ink);padding-top:16px}
+:where(#diagnostic) .t-dek b{font-family:'Spline Sans Mono',monospace;font-weight:600;font-size:.92em}
+
+/* ── verdict band ── */
+:where(#diagnostic) .verdict{display:grid;grid-template-columns:minmax(300px,470px) minmax(0,1fr);gap:40px 72px;align-items:end;padding:8px 0 56px;border-bottom:1px solid var(--line)}
+:where(#diagnostic) .v-num{position:relative}
+:where(#diagnostic) .v-label{display:flex;align-items:center;gap:9px;font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--t2);margin-bottom:16px}
+:where(#diagnostic) .v-label::before{content:"";width:8px;height:8px;background:var(--verm)}
+:where(#diagnostic) .v-big{display:flex;align-items:baseline;gap:16px}
+:where(#diagnostic) .v-score{display:flex;align-items:baseline;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(78px,10.5vw,138px);line-height:.82;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+:where(#diagnostic) .v-int{display:inline-block;min-width:3ch;text-align:right}
+:where(#diagnostic) .v-dec{font-size:.44em;color:var(--verm)}
+:where(#diagnostic) .v-max{font-family:'Spline Sans Mono',monospace;font-size:15px;color:var(--t2)}
+:where(#diagnostic) .v-sub{margin-top:18px;font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--t2)}
+:where(#diagnostic) .v-sub b{color:var(--verm);font-weight:600}
+
+/* hanko (pass stamp) */
+:where(#diagnostic) .hanko{position:absolute;top:-30px;right:-14px;width:clamp(86px,10vw,116px);background:none;border:0;padding:0;cursor:pointer;mix-blend-mode:multiply;font:inherit}
+:where(#diagnostic) .hanko svg{display:block;width:100%;height:auto;overflow:visible;transform:rotate(-11deg);transition:transform .35s ease}
+:where(#diagnostic) .hanko:not(.restamp):hover svg{transform:rotate(-6deg)}
+:where(#diagnostic) .hanko .hk{font-family:'Zen Old Mincho',serif;font-weight:900;font-size:34px;fill:#f4edde}
+:where(#diagnostic) .ping{opacity:0}
+
+/* 0–180 pass track */
+:where(#diagnostic) .v-track{min-width:0}
+:where(#diagnostic) #dxTrack{display:block;width:100%;height:auto}
+:where(#diagnostic) .v-cap{margin:10px 0 0;font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)}
+:where(#diagnostic) #dxNeedle,:where(#diagnostic) .dx-pass{cursor:help}
+
+/* ── radar + section ledger ── */
+:where(#diagnostic) .profile{display:grid;grid-template-columns:minmax(300px,5fr) 7fr;gap:44px 76px;padding:56px 0 60px;border-bottom:1px solid var(--line)}
+:where(#diagnostic) #dxRadar{display:block;width:min(100%,470px);height:auto;margin:0 auto}
+:where(#diagnostic) .p-cap{margin:14px 0 0;font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+:where(#diagnostic) .sw-solid{display:inline-block;width:16px;height:0;border-top:2px solid var(--verm);vertical-align:3px;margin-right:7px}
+:where(#diagnostic) .sw-dash{display:inline-block;width:16px;height:0;border-top:2px dashed rgba(36,30,20,.6);vertical-align:3px;margin-right:7px}
+:where(#diagnostic) .rg-lb{font-size:9px;fill:rgba(36,30,20,.45)}
+:where(#diagnostic) .ax{transition:opacity .22s ease}
+:where(#diagnostic) .ax-kj{font-family:'Zen Old Mincho',serif;font-weight:700;font-size:19px;fill:var(--ink)}
+:where(#diagnostic) .ax-en{font-size:9px;letter-spacing:.14em;fill:rgba(36,30,20,.55)}
+:where(#diagnostic) .ax-sc{font-size:14px;font-weight:600;fill:var(--ink)}
+:where(#diagnostic) .ax-dot{transform-box:fill-box;transform-origin:center;transition:transform .2s ease}
+:where(#diagnostic) .ax.hot .ax-kj{fill:var(--verm)}
+:where(#diagnostic) .ax.hot .ax-dot{transform:scale(1.5)}
+
+:where(#diagnostic) .sec-cap{display:flex;justify-content:space-between;gap:12px;font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);padding-bottom:9px;border-bottom:2px solid rgba(36,30,20,.7)}
+:where(#diagnostic) .secrow{display:grid;grid-template-columns:54px minmax(0,1fr) 88px 24px;gap:22px;align-items:center;padding:17px 10px;margin:0 -10px;border-bottom:1px solid var(--line);cursor:pointer}
+:where(#diagnostic) .secrow:hover,:where(#diagnostic) .secrow.hot{background:rgba(36,30,20,.045)}
+:where(#diagnostic) .r-kanji{position:relative;width:54px;height:54px;border:1px solid var(--line2);display:grid;place-items:center;font-family:'Zen Old Mincho',serif;font-weight:700;font-size:16px;writing-mode:vertical-rl;letter-spacing:.14em}
+:where(#diagnostic) .r-idx{position:absolute;top:3px;left:5px;font-style:normal;writing-mode:horizontal-tb;font-family:'Spline Sans Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--t3)}
+:where(#diagnostic) .r-name{font-weight:600;font-size:15.5px}
+:where(#diagnostic) .tally{display:block;width:100%;height:16px;margin:9px 0 6px}
+:where(#diagnostic) .tk{fill:rgba(36,30,20,.16)}
+:where(#diagnostic) .tk.on{fill:var(--ink)}
+:where(#diagnostic) .r-correct{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t2)}
+:where(#diagnostic) .r-score{text-align:right}
+:where(#diagnostic) .r-score b{font-family:'Spline Sans Mono',monospace;font-weight:600;font-size:27px;letter-spacing:-.02em}
+:where(#diagnostic) .r-score .lb{display:block;font-family:'Spline Sans Mono',monospace;font-style:normal;font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--t3);margin-top:3px}
+:where(#diagnostic) .r-go{color:var(--verm);opacity:0;transform:translateX(-5px);transition:.25s ease}
+:where(#diagnostic) .secrow:hover .r-go,:where(#diagnostic) .secrow.hot .r-go{opacity:1;transform:none}
+
+/* ── subskill ledger ── */
+:where(#diagnostic) .subs{padding:56px 0 64px}
+:where(#diagnostic) .s-headrow{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+:where(#diagnostic) .s-title{margin:0;font-family:'Fraunces',serif;font-weight:500;font-size:30px;letter-spacing:-.01em}
+:where(#diagnostic) .s-sub{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
+:where(#diagnostic) .s-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:0 60px}
+:where(#diagnostic) .s-col{min-width:0}
+:where(#diagnostic) .s-col+.s-col{border-left:1px solid var(--line);padding-left:60px}
+:where(#diagnostic) .s-col .grp{margin-bottom:46px;scroll-margin:80px}
+:where(#diagnostic) .s-col .grp:last-child{margin-bottom:0}
+:where(#diagnostic) .grp.hot{background:rgba(36,30,20,.03)}
+:where(#diagnostic) .grp.hot .g-kanji{color:var(--verm)}
+:where(#diagnostic) .g-head{display:flex;align-items:baseline;gap:13px;border-bottom:1px solid var(--line2);padding-bottom:11px}
+:where(#diagnostic) .g-kanji{font-family:'Zen Old Mincho',serif;font-weight:700;font-size:23px;line-height:1}
+:where(#diagnostic) .g-txt{display:flex;align-items:baseline;gap:8px;min-width:0}
+:where(#diagnostic) .g-name{font-weight:600;font-size:14px}
+:where(#diagnostic) .g-count{font-style:normal;font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+:where(#diagnostic) .g-avg{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--t2);white-space:nowrap}
+:where(#diagnostic) .g-avg b{color:var(--verm);font-weight:600}
+:where(#diagnostic) .srow{display:grid;grid-template-columns:minmax(190px,285px) minmax(0,1fr) 58px;grid-template-areas:"n t v";gap:20px;align-items:center;padding:12px 10px;margin:0 -10px;border-bottom:1px solid var(--line)}
+:where(#diagnostic) .srow:hover{background:rgba(36,30,20,.04)}
+:where(#diagnostic) .s-name{grid-area:n;font-size:13.5px;color:rgba(36,30,20,.9)}
+:where(#diagnostic) .s-track{grid-area:t;position:relative;height:26px}
+:where(#diagnostic) .s-track::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:1px;background:rgba(36,30,20,.3)}
+:where(#diagnostic) .s-gl{position:absolute;top:4px;bottom:4px;width:1px;background:rgba(36,30,20,.1)}
+:where(#diagnostic) .s-avg{position:absolute;top:2px;bottom:2px;border-left:1px dashed rgba(194,64,26,.6)}
+:where(#diagnostic) .s-fill{position:absolute;left:0;bottom:7px;height:8px;width:var(--w);background:var(--ink)}
+:where(#diagnostic) .s-val{grid-area:v;justify-self:end;display:flex;align-items:center;gap:8px;font-family:'Spline Sans Mono',monospace;font-weight:600;font-size:14px}
+:where(#diagnostic) .dot{width:7px;height:7px;border-radius:50%;flex:none}
+:where(#diagnostic) .d-s{background:var(--verm)}
+:where(#diagnostic) .d-m{background:rgba(36,30,20,.38)}
+:where(#diagnostic) .d-w{background:transparent;border:1.5px solid var(--verm)}
+:where(#diagnostic) .s-legend{border-top:1px solid var(--line);padding-top:18px;margin-bottom:46px;font-family:'Spline Sans Mono',monospace;font-size:11.5px;color:var(--t2)}
+:where(#diagnostic) .lg-title{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--t2);margin-bottom:8px}
+:where(#diagnostic) .lg-title::before{content:"";width:8px;height:8px;background:var(--verm)}
+:where(#diagnostic) .s-legend p{margin:4px 0;line-height:2}
+:where(#diagnostic) .s-legend .dot{display:inline-block;vertical-align:-1px;margin-right:7px}
+:where(#diagnostic) .lg-avg{display:inline-block;width:20px;height:0;border-top:1px dashed rgba(194,64,26,.7);vertical-align:4px;margin-right:7px}
+
+/* ── notes + footer ── */
+:where(#diagnostic) .notes{display:grid;grid-template-columns:190px minmax(0,1fr);gap:28px 60px;border-top:1px solid var(--line);padding-top:44px}
+:where(#diagnostic) .n-kanji{display:block;font-family:'Zen Old Mincho',serif;font-weight:900;font-size:34px;line-height:1.1}
+:where(#diagnostic) .n-cap{display:flex;align-items:center;gap:9px;margin-top:10px;font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--t2)}
+:where(#diagnostic) .n-cap::before{content:"";width:8px;height:8px;background:var(--verm)}
+:where(#diagnostic) .note{display:grid;grid-template-columns:40px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+:where(#diagnostic) .note:last-child{border-bottom:0}
+:where(#diagnostic) .n-idx{font-family:'Spline Sans Mono',monospace;font-weight:600;font-size:12px;color:var(--verm);padding-top:3px}
+:where(#diagnostic) .note p{margin:0;font-size:15px;line-height:1.65;color:rgba(36,30,20,.88);max-width:66ch}
+:where(#diagnostic) .dx-foot{display:flex;justify-content:space-between;gap:10px 24px;flex-wrap:wrap;border-top:2px solid var(--ink);margin-top:46px;padding-top:16px}
+:where(#diagnostic) .dx-foot .l{font-size:12.5px;color:var(--t2)}
+:where(#diagnostic) .dx-foot .r{font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
+
+/* cross-highlight dimming */
+:where(#diagnostic) [data-sec]{transition:opacity .22s ease}
+:where(#diagnostic) .dim{opacity:.25}
+@keyframes dxFlash{0%{background:rgba(194,64,26,.12)}100%{background:transparent}}
+:where(#diagnostic) .grp.flash{animation:dxFlash 1.1s ease both}
+
+/* ── motion (all skipped under prefers-reduced-motion) ── */
+@media (prefers-reduced-motion:no-preference){
+  :where(html.js #diagnostic) .rv{opacity:0;transform:translateY(16px)}
+  :where(#diagnostic) .rv{transition:opacity .65s ease var(--d,0s),transform .65s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+  :where(html.js #diagnostic) .rv.in{opacity:1;transform:none}
+  :where(#diagnostic) [data-sec].rv{transition:opacity .3s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+
+  :where(#diagnostic) #dxNeedle{transition:transform 1.25s cubic-bezier(.3,.85,.3,1) .3s}
+  :where(#diagnostic) .s-fill{width:0;transition:width .9s cubic-bezier(.25,.85,.3,1)}
+  :where(#diagnostic) .grp.in .s-fill{width:var(--w)}
+  :where(#diagnostic) .tk.on{transform:scaleY(0);transform-box:fill-box;transform-origin:center bottom;transition:transform .32s cubic-bezier(.3,.8,.4,1.2)}
+  :where(#diagnostic) .secrow.in .tk.on{transform:scaleY(1)}
+
+  :where(#diagnostic) .hanko svg{opacity:0}
+  :where(#diagnostic) .verdict.in .hanko svg{animation:dxStamp .6s cubic-bezier(.2,1.1,.35,1) 1.02s both}
+  :where(#diagnostic) .hanko.done svg{animation:none;opacity:1;transform:rotate(-11deg)}
+  :where(#diagnostic) .verdict .hanko.restamp svg{animation:dxStamp .55s cubic-bezier(.2,1.1,.35,1) both}
+  :where(#diagnostic) .verdict.in .ping{animation:dxPing .75s ease-out 1.32s both}
+  :where(#diagnostic) .verdict .hanko.restamp .ping{animation:dxPing .75s ease-out .12s both}
+  :where(#diagnostic) .verdict.in .v-num{animation:dxThump .4s ease 1.32s}
+}
+@keyframes dxStamp{0%{opacity:0;transform:rotate(-24deg) scale(2.35)}55%{opacity:1;transform:rotate(-9deg) scale(.92)}78%{transform:rotate(-13deg) scale(1.05)}100%{opacity:1;transform:rotate(-11deg) scale(1)}}
+@keyframes dxPing{0%{opacity:.5;transform:scale(.55)}100%{opacity:0;transform:scale(1.55)}}
+@keyframes dxThump{0%,100%{transform:none}45%{transform:translateY(1.5px) scale(.994)}}
+@media (prefers-reduced-motion:reduce){:where(#diagnostic) *,#dxTip{transition:none!important;animation:none!important}}
+
+/* ── responsive ── */
+@media (max-width:1020px){
+  :where(#diagnostic) .profile{grid-template-columns:1fr;gap:48px}
+  :where(#diagnostic) .s-grid{grid-template-columns:1fr}
+  :where(#diagnostic) .s-col+.s-col{border-left:0;padding-left:0;margin-top:46px;border-top:1px solid var(--line);padding-top:38px}
+}
+@media (max-width:860px){
+  :where(#diagnostic) .verdict{grid-template-columns:1fr;gap:46px}
+  :where(#diagnostic) .dx-head{grid-template-columns:1fr;gap:26px}
+  :where(#diagnostic) .t-dek{max-width:560px}
+  :where(#diagnostic) .notes{grid-template-columns:1fr;gap:18px}
+  :where(#diagnostic) .n-side{display:flex;align-items:baseline;gap:16px}
+  :where(#diagnostic) .n-cap{margin-top:0}
+}
+@media (max-width:660px){
+  :where(#diagnostic) .secrow{grid-template-columns:42px minmax(0,1fr) 56px;gap:14px}
+  :where(#diagnostic) .r-kanji{width:42px;height:42px;font-size:13px}
+  :where(#diagnostic) .r-go{display:none}
+  :where(#diagnostic) .r-score b{font-size:21px}
+  :where(#diagnostic) .srow{grid-template-columns:minmax(0,1fr) 54px;grid-template-areas:"n v" "t t";gap:8px 12px}
+  :where(#diagnostic) .v-scroll{overflow-x:auto;padding-bottom:6px}
+  :where(#diagnostic) #dxTrack{min-width:540px}
+  :where(#diagnostic) .hanko{width:76px;top:-18px;right:-4px}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <a class="brand" href="#">Zikora<b>.me</b></a>
+  <nav><a class="on" href="#diagnostic">study</a></nav>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     COPY 3 of 3 · START — the diagnostic section.
+     Paste this whole <section> (plus the <style> and <script> blocks
+     marked above) immediately before your timeline section.
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="diagnostic">
+  <div class="wrap">
+
+    <div class="dx-kicker rv">
+      <span>Study — Diagnostic</span>
+      <span id="dxKick"></span>
+    </div>
+
+    <div class="dx-head">
+      <div class="t-wrap rv" style="--d:.05s">
+        <span class="t-vert" lang="ja" aria-hidden="true">実力診断</span>
+        <h1>One mock,<br><em>taken apart.</em></h1>
+      </div>
+      <p class="t-dek rv" style="--d:.18s" id="dxDek"></p>
+    </div>
+
+    <div class="verdict rv" id="dxVerdict">
+      <div class="v-num">
+        <span class="v-label">Scaled total</span>
+        <div class="v-big">
+          <span class="sr">Scaled total 119.8 out of 180 — passed</span>
+          <span class="v-score" aria-hidden="true"><span class="v-int" id="dxInt">0</span><span class="v-dec" id="dxDec">.0</span></span>
+          <span class="v-max" aria-hidden="true">/ 180</span>
+        </div>
+        <div class="v-sub" id="dxVSub"></div>
+        <button class="hanko" id="dxHanko" type="button" aria-label="Passed (合格) — activate to replay the stamp">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <filter id="dxRough" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.055" numOctaves="3" seed="11" result="w1"/>
+                <feDisplacementMap in="SourceGraphic" in2="w1" scale="4.5" result="d1"/>
+                <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="2" seed="4" result="w2"/>
+                <feDisplacementMap in="d1" in2="w2" scale="1.8"/>
+              </filter>
+            </defs>
+            <circle class="ping" cx="60" cy="60" r="56" fill="none" stroke="#c2401a" stroke-width="2"/>
+            <g filter="url(#dxRough)">
+              <circle cx="60" cy="60" r="54" fill="#c2401a" fill-opacity=".93"/>
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#f4edde" stroke-width="2.4" opacity=".9"/>
+              <text x="60" y="51" class="hk" text-anchor="middle">合</text>
+              <text x="60" y="89" class="hk" text-anchor="middle">格</text>
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="v-track">
+        <div class="v-scroll">
+          <svg id="dxTrack" viewBox="0 0 760 100" role="img" aria-label="Score position on the 0 to 180 scale against the 95 pass line"></svg>
+        </div>
+        <p class="v-cap">0 – 180 scaled · hatched band = pass zone</p>
+      </div>
+    </div>
+
+    <div class="profile rv" id="dxProfile">
+      <div class="p-left">
+        <svg id="dxRadar" viewBox="0 0 480 416" role="img" aria-label="Radar chart of the four scaled section scores, with a dashed outline of each section's average subskill accuracy"></svg>
+        <p class="p-cap">
+          <span>Rings 25 / 50 / 75 / 100</span>
+          <span><i class="sw-solid"></i>scaled score</span>
+          <span><i class="sw-dash"></i>subskill average</span>
+        </p>
+      </div>
+      <div class="p-right">
+        <div class="sec-cap"><span>Sections — scaled &amp; paper</span><span id="dxQCount"></span></div>
+        <div id="dxRows"></div>
+      </div>
+    </div>
+
+    <div class="subs">
+      <div class="s-headrow rv">
+        <h2 class="s-title">Subskill ledger</h2>
+        <span class="s-sub">Accuracy per question type · Migii estimate</span>
+      </div>
+      <div class="s-grid">
+        <div class="s-col" id="dxColA"></div>
+        <div class="s-col" id="dxColB"></div>
+      </div>
+    </div>
+
+    <div class="notes rv">
+      <div class="n-side">
+        <span class="n-kanji" lang="ja">所見</span>
+        <span class="n-cap">Read of the paper</span>
+      </div>
+      <div class="n-list" id="dxNotes"></div>
+    </div>
+
+    <footer class="dx-foot">
+      <span class="l" id="dxSrc"></span>
+      <span class="r">Scaled estimate — not an official result</span>
+    </footer>
+
+  </div>
+</section>
+<!-- ════════════════════ END of diagnostic section ════════════════════ -->
+
+<!-- your existing timeline section — unchanged -->
+<section id="timeline" class="tl">
+  <div class="wrap">
+    <span class="tl-k">Next</span>
+    <h2>Timeline</h2>
+    <p>Your existing timeline section continues here — this stub only marks the placement.</p>
+  </div>
+</section>
+
+<div id="dxTip" role="status" aria-live="polite"></div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     COPY (with the section): the diagnostic section's script.
+     All charts are drawn from the JSON below — edit the JSON and
+     everything (graphs, tallies, averages, notes) rebuilds itself.
+     ════════════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+"use strict";
+
+/* ── the result sheet ── */
+const DATA={diagnostic:{
+  label:"Sept 20 mock result",
+  date:"2026-09-20",
+  source:"Migii mock test",
+  total:"119.8/180 · Passed",
+  sections:[
+    {id:"vocab",name:"Vocabulary",score:59,correct:"19/32",subskills:[
+      {name:"Kanji reading",pct:80},{name:"Orthography",pct:40},{name:"Word formation",pct:40},
+      {name:"Contextually-defined expressions",pct:57},{name:"Paraphrases",pct:60},{name:"Usage",pct:80}]},
+    {id:"grammar",name:"Grammar",score:62,correct:"13/21",subskills:[
+      {name:"Grammar form",pct:67},{name:"Sentence composition",pct:60},{name:"Text grammar",pct:50}]},
+    {id:"reading",name:"Reading",score:52,correct:"11/21",subskills:[
+      {name:"Short passages",pct:40},{name:"Mid-size passages",pct:63},{name:"Reading comprehension",pct:33},
+      {name:"Thematic comprehension",pct:67},{name:"Information retrieval",pct:50}]},
+    {id:"listening",name:"Listening",score:81,correct:"26/32",subskills:[
+      {name:"Task-based comprehension",pct:60},{name:"Comprehension of key points",pct:83},
+      {name:"Comprehension of general outline",pct:100},{name:"Quick response",pct:75},
+      {name:"Listening comprehension",pct:100}]}
+  ]
+}};
+
+const PASS_MARK=95;           // overall pass line out of 180 (N3) — adjust if your level differs
+const D=DATA.diagnostic;
+const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TOTAL=parseFloat(D.total)||0;
+const MARGIN=TOTAL-PASS_MARK;
+const KANJI={vocab:"語彙",grammar:"文法",reading:"読解",listening:"聴解"};
+const ARROW='<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v10M3.6 8.4 8 12.8l4.4-4.4"/></svg>';
+document.documentElement.classList.add('js');
+
+/* ── tiny helpers ── */
+const $=(s,r)=>(r||document).querySelector(s);
+const NS="http://www.w3.org/2000/svg";
+function S(t,a,p){const n=document.createElementNS(NS,t);if(a)for(const k in a)n.setAttribute(k,a[k]);if(p)p.appendChild(n);return n;}
+function H(t,c,x){const n=document.createElement(t);if(c)n.className=c;if(x!=null)n.textContent=x;return n;}
+const avg=a=>a.reduce((s,x)=>s+x,0)/a.length;
+const fmt=(iso,o)=>new Date(iso+"T12:00:00").toLocaleDateString("en-US",o);
+const joinAnd=a=>a.length>1?a.slice(0,-1).join(", ")+" and "+a[a.length-1]:String(a[0]);
+const qC=D.sections.reduce((s,x)=>s+parseInt(x.correct,10),0);
+const qT=D.sections.reduce((s,x)=>s+parseInt(x.correct.split("/")[1],10),0);
+
+/* ── header / dek / footer copy, all derived from the data ── */
+ $("#dxKick").textContent=`${D.source} · ${fmt(D.date,{month:"short",day:"numeric",year:"numeric"})} · ${qC}/${qT} correct`;
+ $("#dxQCount").textContent=`${qT} questions`;
+ $("#dxDek").innerHTML=`Full mock via ${D.source}, sat ${fmt(D.date,{month:"long",day:"numeric",year:"numeric"})} — <b>${TOTAL.toFixed(1)}</b>/180, <b>+${MARGIN.toFixed(1)}</b> clear of the ${PASS_MARK} pass line. The shape of it: ears strong, eyes behind. Taken apart below — by section, then by subskill.`;
+ $("#dxVSub").innerHTML=`Pass ${PASS_MARK} · margin <b>+${MARGIN.toFixed(1)}</b> · ${(TOTAL/180*100).toFixed(1)}%`;
+ $("#dxSrc").textContent=`Source — ${D.source} · ${D.label}`;
+
+/* ── 0–180 pass track ── */
+let needleTarget=null;
+(function buildTrack(){
+  const svg=$("#dxTrack"),L=34,Rt=726,y0=36,bh=14;
+  const x=v=>L+(v/180)*(Rt-L);
+  const defs=S("defs",null,svg);
+  const pat=S("pattern",{id:"dxHatch",width:6,height:6,patternUnits:"userSpaceOnUse",patternTransform:"rotate(45)"},defs);
+  S("line",{x1:3,y1:-1,x2:3,y2:7,stroke:"#c2401a","stroke-width":1.4,opacity:.5},pat);
+  S("rect",{x:x(0),y:y0,width:x(PASS_MARK)-x(0),height:bh,fill:"rgba(36,30,20,.05)"},svg);
+  S("rect",{x:x(PASS_MARK),y:y0,width:x(180)-x(PASS_MARK),height:bh,fill:"url(#dxHatch)"},svg);
+  S("line",{x1:x(0),y1:y0,x2:x(180),y2:y0,stroke:"rgba(36,30,20,.4)"},svg);
+  S("line",{x1:x(0),y1:y0+bh,x2:x(180),y2:y0+bh,stroke:"rgba(36,30,20,.4)"},svg);
+  for(let v=15;v<180;v+=15){if(v%45===0)continue;
+    S("line",{x1:x(v),y1:y0+bh,x2:x(v),y2:y0+bh+5,stroke:"rgba(36,30,20,.25)"},svg);}
+  [0,45,90,135,180].forEach(v=>{
+    S("line",{x1:x(v),y1:y0+bh,x2:x(v),y2:y0+bh+8,stroke:"rgba(36,30,20,.6)"},svg);
+    S("text",{x:x(v),y:y0+bh+23,"text-anchor":"middle",class:"mo tk-lb"},svg).textContent=v;});
+  const pg=S("g",{class:"dx-pass","data-tip":`Pass line — ${PASS_MARK} / 180`},svg);
+  S("line",{x1:x(PASS_MARK),y1:y0-9,x2:x(PASS_MARK),y2:y0+bh+9,stroke:"#c2401a","stroke-width":1.6},pg);
+  S("line",{x1:x(PASS_MARK),y1:y0-9,x2:x(PASS_MARK),y2:y0+bh+9,stroke:"transparent","stroke-width":16},pg);
+  S("text",{x:x(PASS_MARK),y:y0-16,"text-anchor":"middle",class:"mo pass-lb"},pg).textContent=`PASS ${PASS_MARK}`;
+  const g=S("g",{id:"dxNeedle","data-tip":`<b>Scaled total</b> — ${TOTAL.toFixed(1)} / 180 · +${MARGIN.toFixed(1)} over the pass line`},svg);
+  S("line",{x1:0,y1:y0-20,x2:0,y2:y0+bh+13,stroke:"transparent","stroke-width":20},g);
+  S("line",{x1:0,y1:y0-13,x2:0,y2:y0+bh+11,stroke:"#241e14","stroke-width":2},g);
+  S("circle",{cx:0,cy:y0-18,r:4.2,fill:"#c2401a",stroke:"#f4edde","stroke-width":1.5},g);
+  if(RM){g.style.transform=`translateX(${x(TOTAL)}px)`;}
+  else{g.style.transform="translateX(0px)";needleTarget=`translateX(${x(TOTAL)}px)`;}
+})();
+
+/* ── section radar ── */
+let polyMain,polyAvg;
+(function buildRadar(){
+  const svg=$("#dxRadar"),cx=240,cy=208,R=134;
+  const P=(i,r)=>{const a=(i*90-90)*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  [25,50,75,100].forEach(v=>{
+    S("circle",{cx,cy,r:R*v/100,fill:"none",stroke:v===100?"rgba(36,30,20,.4)":"rgba(36,30,20,.13)"},svg);
+    S("text",{x:cx+5,y:cy-R*v/100+3,class:"mo rg-lb"},svg).textContent=v;});
+  for(let i=0;i<4;i++){const[e1,e2]=P(i,R);S("line",{x1:cx,y1:cy,x2:e1,y2:e2,stroke:"rgba(36,30,20,.12)"},svg);}
+  S("circle",{cx,cy,r:2.3,fill:"rgba(36,30,20,.6)"},svg);
+  polyAvg=S("polygon",{points:D.sections.map((s,i)=>P(i,R*avg(s.subskills.map(b=>b.pct))/100).map(n=>n.toFixed(1)).join(",")).join(" "),
+    fill:"none",stroke:"rgba(36,30,20,.62)","stroke-width":1.3,"stroke-dasharray":"4 4"},svg);
+  polyMain=S("polygon",{points:D.sections.map((s,i)=>P(i,R*s.score/100).map(n=>n.toFixed(1)).join(",")).join(" "),
+    fill:"#c2401a","fill-opacity":.09,stroke:"#c2401a","stroke-width":2,"stroke-linejoin":"round"},svg);
+  if(!RM){polyMain.style.fillOpacity=0;polyAvg.style.strokeOpacity=0;}
+  const OFF=[
+    {a:"middle",o:[[0,-11],[0,-29],[0,-50]]},
+    {a:"start", o:[[14,-6],[14,12],[14,32]]},
+    {a:"middle",o:[[0,24],[0,42],[0,64]]},
+    {a:"end",   o:[[-14,-6],[-14,12],[-14,32]]}];
+  D.sections.forEach((s,i)=>{
+    const[vx,vy]=P(i,R),o=OFF[i];
+    const g=S("g",{class:"ax","data-sec":s.id,
+      "data-tip":`<b>${s.name}</b> — scaled ${s.score} · ${s.correct} correct · subskill avg ${avg(s.subskills.map(b=>b.pct)).toFixed(1)}%`},svg);
+    S("circle",{cx:vx,cy:vy,r:46,fill:"transparent"},g);
+    S("circle",{cx:vx,cy:vy,r:4.2,fill:"#c2401a",stroke:"#f4edde","stroke-width":1.6,class:"ax-dot"},g);
+    [["ax-sc",0],["ax-en",1],["ax-kj",2]].forEach(([cls,k])=>{
+      const t=S("text",{x:vx+o.o[k][0],y:vy+o.o[k][1],"text-anchor":o.a,class:cls},g);
+      t.textContent=k===2?KANJI[s.id]:k===1?s.name.toUpperCase():s.score;});
+  });
+})();
+function drawPolys(){
+  if(RM)return;
+  const len=polyMain.getTotalLength();
+  polyMain.style.strokeDasharray=len;polyMain.style.strokeDashoffset=len;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    polyMain.style.transition="stroke-dashoffset 1.15s cubic-bezier(.3,.7,.25,1) .25s, fill-opacity .8s ease 1.15s";
+    polyMain.style.strokeDashoffset="0";polyMain.style.fillOpacity=".09";
+    polyAvg.style.transition="stroke-opacity .9s ease 1.15s";polyAvg.style.strokeOpacity="1";
+  }));
+}
+
+/* ── section ledger rows (with question tallies) ── */
+function tallySvg(cs){
+  const[c,t]=cs.split("/").map(Number);
+  const svg=S("svg",{viewBox:`0 0 ${t*7-4} 16`,class:"tally","aria-hidden":"true"});
+  svg.style.maxWidth=(t*7-4)+"px";
+  for(let i=0;i<t;i++){
+    const r=S("rect",{x:i*7,y:2,width:3,height:12,rx:1,class:"tk"+(i<c?" on":"")},svg);
+    if(i<c&&!RM)r.style.transitionDelay=(i*22)+"ms";
+  }
+  return svg;
+}
+(function buildRows(){
+  const wrap=$("#dxRows");
+  D.sections.forEach((s,i)=>{
+    const row=H("div","secrow rv");
+    row.dataset.sec=s.id;row.setAttribute("role","button");row.tabIndex=0;
+    row.setAttribute("aria-label",`${s.name}: scaled ${s.score}, ${s.correct} correct — jump to its subskills`);
+    const k=H("span","r-kanji");k.setAttribute("lang","ja");
+    k.appendChild(H("i","r-idx","0"+(i+1)));
+    k.appendChild(document.createTextNode(KANJI[s.id]));
+    const main=H("div","r-main");
+    main.appendChild(H("div","r-name",s.name));
+    main.appendChild(tallySvg(s.correct));
+    main.appendChild(H("div","r-correct",`${s.correct} correct`));
+    const sc=H("div","r-score");
+    sc.appendChild(H("b",null,String(s.score)));
+    sc.appendChild(H("span","lb","scaled"));
+    const go=H("span","r-go");go.innerHTML=ARROW;
+    row.append(k,main,sc,go);
+    wrap.appendChild(row);
+  });
+})();
+
+/* ── subskill ledger (two asymmetric columns) ── */
+function buildLegend(){
+  const d=H("div","s-legend rv");
+  d.innerHTML=`<span class="lg-title">How to read</span>
+  <p><i class="dot d-s"></i>75+ strength&ensp;·&ensp;<i class="dot d-m"></i>50–74 steady&ensp;·&ensp;<i class="dot d-w"></i>under 50 — focus</p>
+  <p><i class="lg-avg"></i>dashed rule — that section's average across its subskills</p>`;
+  return d;
+}
+(function buildGroups(){
+  const A=$("#dxColA"),B=$("#dxColB");
+  D.sections.forEach((s,gi)=>{
+    const a=avg(s.subskills.map(b=>b.pct)).toFixed(1);
+    const g=H("section","grp rv");
+    g.id="dxGrp-"+s.id;g.dataset.sec=s.id;
+    const head=H("header","g-head");
+    const kj=H("span","g-kanji",KANJI[s.id]);kj.setAttribute("lang","ja");
+    const txt=H("span","g-txt");
+    txt.appendChild(H("b","g-name",s.name));
+    txt.appendChild(H("i","g-count",s.subskills.length+" subskills"));
+    const av=H("span","g-avg");
+    av.setAttribute("data-tip",`Mean of the ${s.subskills.length} subskill scores — ${a}%`);
+    av.appendChild(document.createTextNode("avg "));
+    av.appendChild(H("b",null,a));
+    head.append(kj,txt,av);
+    const rows=H("div","g-rows");
+    s.subskills.forEach((b,bi)=>{
+      const cls=b.pct>=75?"d-s":(b.pct>=50?"d-m":"d-w");
+      const word=b.pct>=75?"strength":(b.pct>=50?"steady":"focus");
+      const row=H("div","srow");
+      row.setAttribute("data-tip",`<b>${b.name}</b> — ${b.pct}% · ${word}`);
+      row.innerHTML=
+        `<span class="s-name">${b.name}</span>`+
+        `<span class="s-track">`+
+          `<i class="s-gl" style="left:25%"></i><i class="s-gl" style="left:50%"></i><i class="s-gl" style="left:75%"></i>`+
+          `<i class="s-avg" style="left:${a}%"></i>`+
+          `<i class="s-fill" style="--w:${b.pct}%;transition-delay:${140+bi*70}ms"></i>`+
+        `</span>`+
+        `<span class="s-val"><i class="dot ${cls}"></i>${b.pct}</span>`;
+      rows.appendChild(row);
+    });
+    g.append(head,rows);
+    (gi===1||gi===3?B:A).appendChild(g);
+    if(gi===1)B.appendChild(buildLegend());
+  });
+})();
+
+/* ── 所見 — findings, computed from the data ── */
+(function buildNotes(){
+  const all=D.sections.flatMap(s=>s.subskills.map(b=>({n:b.name,p:b.pct,sec:s.name,secId:s.id})));
+  const perf=all.filter(b=>b.pct===100);
+  const low=[...all].sort((a,b)=>a.pct-b.pct).slice(0,3);
+  const sorted=[...D.sections].sort((a,b)=>b.score-a.score);
+  const hi=sorted[0],lo=sorted[sorted.length-1],gap=hi.score-lo.score;
+  const notes=[];
+  if(perf.length){
+    const same=perf.every(b=>b.secId===perf[0].secId);
+    const word=perf.length===2?"both":`all ${perf.length}`;
+    notes.push(`Perfect marks${same?` — ${word} in ${perf[0].sec}`:""}: ${joinAnd(perf.map(b=>b.n.toLowerCase()))} at 100%. Bank them; they're the floor to defend on the next paper.`);
+  }
+  notes.push(`Priority fixes — ${joinAnd(low.map(b=>`${b.n.toLowerCase()} (${b.pct}%)`))}. The thinnest marks on the paper, gathered into one study block.`);
+  const flavor=(hi.id==="listening"&&lo.id==="reading")
+    ?"the ears are ahead of the eyes, so tilt the next block toward reading"
+    :`the profile leans ${hi.name.toLowerCase()}-forward`;
+  notes.push(`${hi.name} (${hi.score}) runs ${gap} points clear of ${lo.name} (${lo.score}) — ${flavor}.`);
+  $("#dxNotes").innerHTML=notes.map((t,i)=>`<div class="note"><span class="n-idx">0${i+1}</span><p>${t}</p></div>`).join("");
+})();
+
+/* ── tooltip ── */
+const tip=$("#dxTip");
+function moveTip(x,y){
+  const r=tip.getBoundingClientRect();
+  let tx=x-r.width/2,ty=y-r.height-14;
+  if(ty<8)ty=y+18;
+  tx=Math.max(8,Math.min(window.innerWidth-r.width-8,tx));
+  tip.style.left=tx+"px";tip.style.top=ty+"px";
+}
+function showTip(html,x,y){tip.innerHTML=html;tip.classList.add("on");moveTip(x,y);}
+document.querySelectorAll("#diagnostic [data-tip]").forEach(n=>{
+  n.addEventListener("mouseenter",e=>showTip(n.getAttribute("data-tip"),e.clientX,e.clientY));
+  n.addEventListener("mousemove",e=>moveTip(e.clientX,e.clientY));
+  n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+});
+
+/* ── cross-highlighting: radar axis ↔ section row ↔ subskill group ── */
+function hl(id){
+  document.querySelectorAll("#diagnostic [data-sec]").forEach(m=>{
+    const on=!!id&&m.dataset.sec===id;
+    m.classList.toggle("hot",on);
+    m.classList.toggle("dim",!!id&&!on);
+  });
+}
+document.querySelectorAll("#diagnostic [data-sec]").forEach(n=>{
+  n.addEventListener("mouseenter",()=>hl(n.dataset.sec));
+  n.addEventListener("mouseleave",()=>hl(null));
+});
+
+/* ── rows jump to their subskill group ── */
+document.querySelectorAll("#diagnostic .secrow").forEach(r=>{
+  const jump=()=>{
+    const g=$("#dxGrp-"+r.dataset.sec);if(!g)return;
+    g.scrollIntoView({behavior:RM?"auto":"smooth",block:"center"});
+    if(!RM){g.classList.remove("flash");void g.offsetWidth;g.classList.add("flash");}
+  };
+  r.addEventListener("click",jump);
+  r.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();jump();}});
+});
+
+/* ── hanko re-stamp toy ── */
+const hanko=$("#dxHanko");
+const hankoSvg=hanko.querySelector("svg");
+hanko.addEventListener("click",()=>{
+  if(RM)return;
+  hanko.classList.remove("done","restamp");void hanko.offsetWidth;hanko.classList.add("restamp");
+});
+hankoSvg.addEventListener("animationend",e=>{
+  if(e.target!==hankoSvg)return;
+  hanko.classList.add("done");hanko.classList.remove("restamp");
+});
+
+/* ── count-up ── */
+function runCount(){
+  const i=$("#dxInt"),d=$("#dxDec");
+  const set=v=>{const p=v.toFixed(1).split(".");i.textContent=p[0];d.textContent="."+p[1];};
+  if(RM){set(TOTAL);return;}
+  const t0=performance.now(),dur=1400;
+  const step=now=>{
+    const p=Math.min(1,(now-t0)/dur),e=1-Math.pow(1-p,4);
+    set(TOTAL*e);if(p<1)requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ── scroll reveals ── */
+function fire(t){
+  if(t.id==="dxVerdict"){runCount();if(!RM&&needleTarget)$("#dxNeedle").style.transform=needleTarget;}
+  if(t.id==="dxProfile")drawPolys();
+}
+if(!("IntersectionObserver"in window)){
+  document.querySelectorAll("#diagnostic .rv").forEach(n=>{n.classList.add("in");fire(n);});
+}else{
+  const io=new IntersectionObserver(es=>{
+    for(const e of es){
+      if(!e.isIntersecting)continue;
+      e.target.classList.add("in");fire(e.target);io.unobserve(e.target);
+    }
+  },{threshold:.15,rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll("#diagnostic .rv").forEach(n=>io.observe(n));
+}
+})();
+</script>
+</body>
+</html>

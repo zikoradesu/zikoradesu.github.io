@@ -1,0 +1,61 @@
+{
+  "diagnostic": {
+    "label": "Sept 20 mock result",
+    "date": "2026-09-20",
+    "source": "Migii mock test",
+    "total": "119.8/180 · Passed",
+    "sections": [
+      {
+        "id": "vocab",
+        "name": "Vocabulary",
+        "score": 59,
+        "correct": "19/32",
+        "subskills": [
+          { "name": "Kanji reading", "pct": 80 },
+          { "name": "Orthography", "pct": 40 },
+          { "name": "Word formation", "pct": 40 },
+          { "name": "Contextually-defined expressions", "pct": 57 },
+          { "name": "Paraphrases", "pct": 60 },
+          { "name": "Usage", "pct": 80 }
+        ]
+      },
+      {
+        "id": "grammar",
+        "name": "Grammar",
+        "score": 62,
+        "correct": "13/21",
+        "subskills": [
+          { "name": "Grammar form", "pct": 67 },
+          { "name": "Sentence composition", "pct": 60 },
+          { "name": "Text grammar", "pct": 50 }
+        ]
+      },
+      {
+        "id": "reading",
+        "name": "Reading",
+        "score": 52,
+        "correct": "11/21",
+        "subskills": [
+          { "name": "Short passages", "pct": 40 },
+          { "name": "Mid-size passages", "pct": 63 },
+          { "name": "Reading comprehension", "pct": 33 },
+          { "name": "Thematic comprehension", "pct": 67 },
+          { "name": "Information retrieval", "pct": 50 }
+        ]
+      },
+      {
+        "id": "listening",
+        "name": "Listening",
+        "score": 81,
+        "correct": "26/32",
+        "subskills": [
+          { "name": "Task-based comprehension", "pct": 60 },
+          { "name": "Comprehension of key points", "pct": 83 },
+          { "name": "Comprehension of general outline", "pct": 100 },
+          { "name": "Quick response", "pct": 75 },
+          { "name": "Listening comprehension", "pct": 100 }
+        ]
+      }
+    ]
+  }
+}
