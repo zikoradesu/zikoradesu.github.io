@@ -99,7 +99,7 @@
 
 <main class="study-page">
   <div class="container">
-    <section class="study-account" aria-label="Study account">
+    <!-- <section class="study-account" aria-label="Study account">
       <button class="signout-button" type="button">Sign out</button>
       <div class="profile">
         <img class="profile-picture" src={studyData.hero.profile.image} alt={studyData.hero.profile.imageAlt} />
@@ -108,7 +108,7 @@
           <span>{studyData.hero.profile.levelTransition}</span>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <StudyHero
       {...studyData.hero}
